@@ -1,0 +1,66 @@
+﻿@page "/devices"
+@inject HttpClient Http
+<h3>Devices</h3>
+
+@if (devices == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Device</th>
+                <th>Status</th>
+                <th>Data</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in devices)
+            {
+                <tr>
+                    <td>@item.DeviceId</td>
+                    <td>@item.Status</td>
+                    <td>@item.ConnectionState</td>
+                    <td>@item.JsonData</td>
+                    <td>
+                        <div>
+                            <button class="btn btn-outline-secondary" style="width:80px;">Start</button>
+                            <button class="btn"><i class="fas fa-chart-area"></i></button>
+                            <button class="btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private IOTDevice[] devices;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        devices = await Http.GetFromJsonAsync<IOTDevice[]>("http://localhost:7071/api/devices");
+       // devices = await Http.GetFromJsonAsync<IOTDevice[]>("https://mydeviceapi.azurewebsites.net/api/GetDevices?code=aEmcNUmNVupNCvHscXyBiE1yudzadzdOyi9KroveN4pjNOkd0cEiPg==");
+    }
+    /*protected  async Task GetDevicesAsync()
+    {
+        devices = await Http.GetFromJsonAsync<IOTDevice[]>("https://mydeviceapi.azurewebsites.net/api/GetDevices?code=aEmcNUmNVupNCvHscXyBiE1yudzadzdOyi9KroveN4pjNOkd0cEiPg==");
+    }
+
+        protected override void OnInitialized()
+         {
+             var timer = new Timer(new TimerCallback(_ => InvokeAsync(() => StateHasChanged())), null, 1000, 1000);
+         }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await GetDevicesAsync();
+    }*/
+
+}
