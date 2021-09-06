@@ -15,6 +15,7 @@ namespace BlazorDeviceManager.Models
         public string Status { get; set; }
           public string JsonData { get; set; }
        public DateTime JsonDataLastUpdated { get; set; }
+        public bool AllowSending { get; set; }
 
     }
 
